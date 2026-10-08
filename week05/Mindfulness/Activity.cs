@@ -15,6 +15,16 @@ public class Activity
         _duration = 30;
     }
 
+    public string GetName()
+    {
+        return _name;
+    }
+
+    public int GetDuration()
+    {
+        return _duration;
+    }
+
     public void DisplayStartingMessage()
     {
         Console.Clear();

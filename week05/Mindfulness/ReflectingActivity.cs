@@ -5,6 +5,8 @@ public class ReflectingActivity : Activity
 {
     private List<string> _prompts;
     private List<string> _questions;
+    private List<string> _unusedPrompts;
+    private List<string> _unusedQuestions;
 
     public ReflectingActivity()
     {
@@ -31,6 +33,9 @@ public class ReflectingActivity : Activity
             "What did you learn about yourself through this experience?",
             "How can you keep this experience in mind in the future?"
         };
+
+        _unusedPrompts = new List<string>(_prompts);
+        _unusedQuestions = new List<string>(_questions);
     }
 
     public void Run()
@@ -43,16 +48,30 @@ public class ReflectingActivity : Activity
 
     public string GetRandomPrompt()
     {
+        if (_unusedPrompts.Count == 0)
+        {
+            _unusedPrompts = new List<string>(_prompts);
+        }
+
         Random rand = new Random();
-        int index = rand.Next(_prompts.Count);
-        return _prompts[index];
+        int index = rand.Next(_unusedPrompts.Count);
+        string prompt = _unusedPrompts[index];
+        _unusedPrompts.RemoveAt(index);
+        return prompt;
     }
 
     public string GetRandomQuestion()
     {
+        if (_unusedQuestions.Count == 0)
+        {
+            _unusedQuestions = new List<string>(_questions);
+        }
+
         Random rand = new Random();
-        int index = rand.Next(_questions.Count);
-        return _questions[index];
+        int index = rand.Next(_unusedQuestions.Count);
+        string question = _unusedQuestions[index];
+        _unusedQuestions.RemoveAt(index);
+        return question;
     }
 
     public void DisplayPrompt()
@@ -61,7 +80,7 @@ public class ReflectingActivity : Activity
         Console.WriteLine($"--- {GetRandomPrompt()} ---\n");
         Console.WriteLine("When you have something in mind, press enter to continue.");
         Console.ReadLine();
-        Console.WriteLine("Now ponder on each of the following questions as they related to this experience.");
+        Console.WriteLine("Now ponder on each of the following questions as they relate to this experience.");
         Console.Write("You may begin in: ");
         ShowCountDown(5);
         Console.Clear();

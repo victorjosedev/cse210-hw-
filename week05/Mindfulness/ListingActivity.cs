@@ -5,6 +5,7 @@ public class ListingActivity : Activity
 {
     private int _count;
     private List<string> _prompts;
+    private List<string> _unusedPrompts;
 
     public ListingActivity()
     {
@@ -20,6 +21,8 @@ public class ListingActivity : Activity
             "When have you felt the Holy Ghost this month?",
             "Who are some of your personal heroes?"
         };
+
+        _unusedPrompts = new List<string>(_prompts);
     }
 
     public void Run()
@@ -41,9 +44,16 @@ public class ListingActivity : Activity
 
     public string GetRandomPrompt()
     {
+        if (_unusedPrompts.Count == 0)
+        {
+            _unusedPrompts = new List<string>(_prompts);
+        }
+
         Random rand = new Random();
-        int index = rand.Next(_prompts.Count);
-        return _prompts[index];
+        int index = rand.Next(_unusedPrompts.Count);
+        string prompt = _unusedPrompts[index];
+        _unusedPrompts.RemoveAt(index);
+        return prompt;
     }
 
     public List<string> GetListFromUser()
