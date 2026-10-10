@@ -14,6 +14,14 @@ public class ChecklistGoal : Goal
         _bonus = bonus;
     }
 
+    public ChecklistGoal(string name, string description, int points, int bonus, int target, int amountCompleted) 
+        : base(name, description, points)
+    {
+        _amountCompleted = amountCompleted;
+        _target = target;
+        _bonus = bonus;
+    }
+
     public override void RecordEvent()
     {
         _amountCompleted++;
@@ -22,6 +30,21 @@ public class ChecklistGoal : Goal
     public override bool IsComplete()
     {
         return _amountCompleted >= _target;
+    }
+
+    public int GetBonus()
+    {
+        return _bonus;
+    }
+
+    public int GetAmountCompleted()
+    {
+        return _amountCompleted;
+    }
+
+    public int GetTarget()
+    {
+        return _target;
     }
 
     public override string GetDetailsString()
